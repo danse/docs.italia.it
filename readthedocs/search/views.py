@@ -25,6 +25,8 @@ UserInput = collections.namedtuple(
         'version',
         'taxonomy',
         'language',
+        'publisher',
+        'progetto',
     ),
 )
 
@@ -38,6 +40,8 @@ def elastic_search(request):
         version=request.GET.get('version', LATEST),
         taxonomy=request.GET.get('taxonomy'),
         language=request.GET.get('language'),
+        publisher=request.GET.get('publisher'),
+        progetto=request.GET.get('progetto'),
     )
     results = ''
 
@@ -46,7 +50,8 @@ def elastic_search(request):
     if user_input.query:
         if user_input.type == 'project':
             results = search_lib.search_project(
-                request, user_input.query, language=user_input.language)
+                request, user_input.query, language=user_input.language,
+                publisher=user_input.publisher, progetto=user_input.progetto)
         elif user_input.type == 'file':
             results = search_lib.search_file(
                 request, user_input.query, project_slug=user_input.project,
@@ -63,7 +68,7 @@ def elastic_search(request):
             del hit['_source']
 
         if 'aggregations' in results:
-            for facet_type in ['project', 'version', 'taxonomy', 'language']:
+            for facet_type in ['project', 'version', 'taxonomy', 'language', 'publisher', 'progetto']:
                 if facet_type in results['aggregations']:
                     facets[facet_type] = collections.OrderedDict()
                     for term in results['aggregations'][facet_type]['buckets']:

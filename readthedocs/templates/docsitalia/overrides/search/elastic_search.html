@@ -13,7 +13,7 @@
         <ul class="column-search-filters">
           {% if type == 'file' %}
           {% if facets.project %}
-          <h5 class="projects-filter">Projects</h5>
+          <h5 class="projects-filter">{% trans 'Projects' %}</h5>
           {% for name, count in facets.project.items %}
           <li class="{% if project == name %}active{% endif %}">
             {% if project == name %}
@@ -26,41 +26,52 @@
           </li>
           {% endfor %}
           {% endif %}
+          {% endif %}
 
-          {% if facets.version %}
-          <h5>Version</h5>
-          {% for name, count in facets.version.items %}
-          <li class="{% if version == name %}active{% endif %}">
-            {% if version == name %}
-            <a href="?{% url_replace request 'version' ''  %}">{{ name }}
-              {% else %}
-              <a href="?{% url_replace request 'version' name  %}">{{ name }}
-                {% endif %}
+          {% if facets.language %}
+          <h5>{% trans 'Language' %}</h5>
+          {% for name, count in facets.language.items %}
+          <li class="{% if language == name %}active{% endif %}">
+            {% if language == name %}
+              <a href="?{% url_replace request 'language' ''  %}">{{ name }}
+            {% else %}
+              <a href="?{% url_replace request 'language' name  %}">{{ name }}
                 ({{ count }})
               </a>
+            {% endif %}
           </li>
           {% endfor %}
           {% endif %}
 
-          {% if facets.taxonomy %}
-          <h5>Taxonomy</h5>
-          {% for name, count in facets.taxonomy.items %}
-          <li class="{% if taxonomy == name %}active{% endif %}">
-            {% if taxonomy == name %}
-            <a href="?{% url_replace request 'taxonomy' ''  %}">{{ name }}
-              {% else %}
-              <a href="?{% url_replace request 'taxonomy' name  %}">{{ name }}
-                {% endif %}
+          {% if facets.publisher %}
+          <h5>{% trans 'Publisher' %}</h5>
+          {% for name, count in facets.publisher.items %}
+          <li class="{% if publisher == name %}active{% endif %}">
+            {% if publisher == name %}
+              <a href="?{% url_replace request 'publisher' ''  %}">{{ name }}
+            {% else %}
+              <a href="?{% url_replace request 'publisher' name  %}">{{ name }}
                 ({{ count }})
               </a>
+            {% endif %}
           </li>
           {% endfor %}
-
-
           {% endif %}
 
+          {% if facets.progetto %}
+          <h5>{% trans 'Publisher Project' %}</h5>
+          {% for name, count in facets.progetto.items %}
+          <li class="{% if progetto == name %}active{% endif %}">
+            {% if progetto == name %}
+              <a href="?{% url_replace request 'progetto' ''  %}">{{ name }}
+            {% else %}
+              <a href="?{% url_replace request 'progetto' name  %}">{{ name }}
+                ({{ count }})
+              </a>
+            {% endif %}
+          </li>
+          {% endfor %}
           {% endif %}
-
         </ul>
       </div>
 
@@ -76,6 +87,8 @@
                 {% if taxonomy %} <input type="hidden" name="taxonomy" value="{{ taxonomy }}"> {% endif %}
                 {% if version %} <input type="hidden" name="version" value="{{ version }}"> {% endif %}
                 {% if language %} <input type="hidden" name="language" value="{{ language }}"> {% endif %}
+                {% if publisher %} <input type="hidden" name="publisher" value="{{ publisher }}"> {% endif %}
+                {% if progetto %} <input type="hidden" name="progetto" value="{{ progetto }}"> {% endif %}
               </div>
               <div class="submit-input-wrapper pt-2">
                 {% comment %}Translators: This is about starting a search{% endcomment %}
