@@ -281,7 +281,7 @@ class DocsItaliaTest(TestCase):
         publisher = Publisher.objects.create(
             name='Test Org',
             slug='testorg',
-            metadata={},
+            metadata={'publisher': {'logo_url': 'logo_url.jpg'}},
             projects_metadata={},
             active=True
         )
@@ -325,7 +325,8 @@ class DocsItaliaTest(TestCase):
         self.assertEqual(data, {
             'subprojects': [u'sub1'],
             'publisher_project': pub_project,
-            'publisher': publisher
+            'publisher': publisher,
+            'publisher_logo': 'logo_url.jpg',
         })
 
     def test_publisher_create_projects_from_metadata_let_use_same_slug_for_other_publisher(self):

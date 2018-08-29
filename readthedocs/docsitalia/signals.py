@@ -63,7 +63,14 @@ def add_sphinx_context_data(sender, data, build_env, **kwargs):  # pylint: disab
     data['subprojects'] = subprojects
     publisher_project = build_env.project.publisherproject_set.first()
     data['publisher_project'] = publisher_project
-    data['publisher'] = publisher_project.publisher if publisher_project else None
+    if publisher_project:
+        publisher = publisher_project.publisher
+        data['publisher'] = publisher
+        metadata = publisher.metadata.get('publisher', {})
+        data['publisher_logo'] = metadata.get('logo_url')
+    else:
+        data['publisher'] = None
+        data['publisher_logo'] = None
 
 
 @receiver(pre_delete, sender=PublisherProject)
